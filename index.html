@@ -6,8 +6,17 @@
   <title>Document</title>
 </head>
 <body>
+  <h1>Todo App</h1>
 
-  <script src="js/app.cache.js"></script>
-  <script src="js/indexeddb.js"></script>
+  <form name="todo">
+    <input type="text"
+           id="description"
+           name="description">
+    <button type="submit">Add</button>
+  </form>
+
+  <ul id="todo"></ul>
+
+  <script src="js/todo.js"></script>
 </body>
 </html>
