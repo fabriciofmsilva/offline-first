@@ -3,8 +3,9 @@ CACHE MANIFEST
 
 # Explicitly cached 'master entries'.
 CACHE:
-index.html
-js/app.cache.js
+#index.html
+#js/app.cache.js
+#js/todo.js
 #js/indexeddb.js
 
 # Resources that require the user to be online.

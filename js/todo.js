@@ -56,27 +56,35 @@ function updateView() {
 }
 
 var datastore = null;
+
+function openDb() {
+  console.log("openDb ...");
+  var request = indexedDB.open('todos', 1);
+
+  request.onsucess = function(event) {
+    datastore = event.target.result;
+    console.log('onsucess');
+  };
+
+  request.onerror = function(event) {
+    console.warn('error', event.target.errorCode);
+  };
+
+  request.onupgradeneeded = function(event) {
+    console.log('onupgradeneeded');
+    var db = event.target.result;
+
+    var objectStore = db.createObjectStore("todo", { keyPath: "id" });
+
+    objectStore.createIndex("id", "id", { unique: true });
+    objectStore.createIndex("description", "description", { unique: false });
+  };
+}
+
 var db = {
   open: function() {
-    console.log('DB opened');
-    var request = window.indexedDB.open('todos', 1);
+    console.log('DB opened', request);
 
-    request.onerror = function(event) {
-      console.warn('error');
-    };
-
-    request.onsucess = function(event) {
-      datastore = event.target.result;
-    };
-
-    request.onupgradeneeded = function(event) {
-      var db = event.target.result;
-
-      var objectStore = db.createObjectStore("todo", { keyPath: "id" });
-
-      objectStore.createIndex("id", "id", { unique: true });
-      objectStore.createIndex("description", "description", { unique: false });
-    };
   },
 
   add: function(todo) {
@@ -98,7 +106,7 @@ var db = {
 var app = {
   init: function() {
     console.log('App initialize!');
-    db.open();
+    openDb();
   }
 };
 
